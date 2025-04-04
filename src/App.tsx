@@ -20,11 +20,16 @@ function App() {
 
   return (
     <>
-      <h1>IT Trends</h1>
+      <h1>Technology Evolution Trends</h1>
       {technologies.length === 0 ? (
         <UploadTrends onFileParsed={(techs) => handleSetTechnologies(techs)} />
       ) : (
-        <TechnologyList technologies={technologies} />
+        <main>
+          <section className="technology-list">
+            <TechnologyList technologies={technologies} />
+          </section>
+          <section className="graph">Here is the graph</section>
+        </main>
       )}
     </>
   )
