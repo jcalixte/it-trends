@@ -16,6 +16,7 @@ function App() {
   const [checkedTechnologies, setCheckedTechnologies] = useState<
     Map<string, boolean>
   >(toHashMap(technologies))
+  const [minRangeChange, setMinRangeChange] = useState(0)
 
   const handleSetTechnologies = (techs: Array<Technology>) => {
     if (techs.length > 0) {
@@ -51,6 +52,12 @@ function App() {
     }
   }
 
+  const applyMinRangeChange = () => {
+    setCheckedTechnologies(
+      new Map(toHashMap(technologies.filter((t) => t.range >= minRangeChange)))
+    )
+  }
+
   return (
     <>
       <h1>Technology Evolution Trends</h1>
@@ -66,6 +73,16 @@ function App() {
         <main>
           <section className="technology-list">
             <button onClick={() => toggleAll()}>Select/Deselect All</button>
+            <div>
+              <label htmlFor="min-range-change">Min Rank Change</label>
+              <input
+                type="number"
+                id="min-range-change"
+                value={minRangeChange}
+                onChange={(e) => setMinRangeChange(Number(e.target.value))}
+              />
+              <button onClick={() => applyMinRangeChange()}>Apply</button>
+            </div>
             <TechnologyList
               technologies={technologies}
               checkedTechnologies={checkedTechnologies}
