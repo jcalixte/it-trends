@@ -15,13 +15,7 @@ export const TechGraph: FunctionComponent<{
   techs: Array<Technology>
   checkedTechnologies: Map<string, boolean>
 }> = ({ techs, checkedTechnologies }) => {
-  const labels = [
-    "2024-09-07",
-    "2024-11-07",
-    "2025-02-06",
-    "2025-02-06",
-    "2025-04-03",
-  ]
+  const labels = ["2024-09-07", "2024-11-07", "2025-02-06", "2025-04-03"]
 
   const filteredTechnologies = techs.filter((t) =>
     checkedTechnologies.has(t.Technology)
@@ -34,7 +28,6 @@ export const TechGraph: FunctionComponent<{
       data: [
         tech["2024-09-07"],
         tech["2024-11-07"],
-        tech["2025-02-06"],
         tech["2025-02-06"],
         tech["2025-04-03"],
       ],
