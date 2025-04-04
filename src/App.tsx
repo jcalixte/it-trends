@@ -14,13 +14,21 @@ function App() {
   const handleSetTechnologies = (techs: Array<Technology>) => {
     if (techs) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(techs))
-      setTechnologies(techs)
+      setTechnologies(
+        techs.sort((a, b) => (a.Technology < b.Technology ? -1 : 1))
+      )
     }
+  }
+
+  const clearTechno = () => {
+    setTechnologies([])
+    localStorage.removeItem(STORAGE_KEY)
   }
 
   return (
     <>
       <h1>Technology Evolution Trends</h1>
+      <button onClick={() => clearTechno()}>clear storage</button>
       {technologies.length === 0 ? (
         <UploadTrends onFileParsed={(techs) => handleSetTechnologies(techs)} />
       ) : (
