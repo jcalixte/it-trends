@@ -10,14 +10,46 @@ function App() {
   const [technologies, setTechnologies] = useState<Array<Technology>>(
     JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") || []
   )
+  const [checkedTechnologies, setCheckedTechnologies] = useState<
+    Map<string, boolean>
+  >(new Map())
 
   const handleSetTechnologies = (techs: Array<Technology>) => {
     if (techs) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(techs))
-      setTechnologies(
-        techs.sort((a, b) => (a.Technology < b.Technology ? -1 : 1))
-      )
+      setTechnologies(techs)
     }
+  }
+
+  const sortedTechnologies = [...technologies].sort((a, b) => {
+    // first the checked
+    if (
+      checkedTechnologies.has(a.Technology) &&
+      !checkedTechnologies.has(b.Technology)
+    ) {
+      return -1
+    }
+
+    if (
+      !checkedTechnologies.has(a.Technology) &&
+      checkedTechnologies.has(b.Technology)
+    ) {
+      return 1
+    }
+
+    return a.Technology < b.Technology ? -1 : 1
+  })
+
+  const handleCheckTech = (tech: string) => {
+    const hashMap = new Map(checkedTechnologies)
+
+    if (hashMap.has(tech)) {
+      hashMap.delete(tech)
+    } else {
+      hashMap.set(tech, true)
+    }
+
+    setCheckedTechnologies(hashMap)
   }
 
   const clearTechno = () => {
@@ -34,7 +66,11 @@ function App() {
       ) : (
         <main>
           <section className="technology-list">
-            <TechnologyList technologies={technologies} />
+            <TechnologyList
+              technologies={sortedTechnologies}
+              checkedTechnologies={checkedTechnologies}
+              onSelectTech={handleCheckTech}
+            />
           </section>
           <section className="graph">Here is the graph</section>
         </main>

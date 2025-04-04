@@ -14,5 +14,19 @@ main {
 }
 
 .graph {
-  flex: 3;
+  flex: 2;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  text-decoration: none;
+  list-style: none;
+  text-align: left;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+li {
+  width: 50%;
 }
