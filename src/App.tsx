@@ -15,30 +15,13 @@ function App() {
   >(new Map())
 
   const handleSetTechnologies = (techs: Array<Technology>) => {
-    if (techs) {
+    if (techs.length > 0) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(techs))
       setTechnologies(techs)
+    } else {
+      clearTechno()
     }
   }
-
-  const sortedTechnologies = [...technologies].sort((a, b) => {
-    // first the checked
-    if (
-      checkedTechnologies.has(a.Technology) &&
-      !checkedTechnologies.has(b.Technology)
-    ) {
-      return -1
-    }
-
-    if (
-      !checkedTechnologies.has(a.Technology) &&
-      checkedTechnologies.has(b.Technology)
-    ) {
-      return 1
-    }
-
-    return a.Technology < b.Technology ? -1 : 1
-  })
 
   const handleCheckTech = (tech: string) => {
     const hashMap = new Map(checkedTechnologies)
@@ -62,12 +45,19 @@ function App() {
       <h1>Technology Evolution Trends</h1>
       <button onClick={() => clearTechno()}>clear storage</button>
       {technologies.length === 0 ? (
-        <UploadTrends onFileParsed={(techs) => handleSetTechnologies(techs)} />
+        <UploadTrends
+          onFileParsed={(techs) => {
+            handleSetTechnologies(techs)
+            setCheckedTechnologies(
+              new Map(techs.map((t) => [t.Technology, true]))
+            )
+          }}
+        />
       ) : (
         <main>
           <section className="technology-list">
             <TechnologyList
-              technologies={sortedTechnologies}
+              technologies={technologies}
               checkedTechnologies={checkedTechnologies}
               onSelectTech={handleCheckTech}
             />

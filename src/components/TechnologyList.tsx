@@ -6,20 +6,43 @@ export const TechnologyList: FunctionComponent<{
   checkedTechnologies: Map<string, boolean>
   onSelectTech?: (tech: string) => void
 }> = ({ technologies, checkedTechnologies, onSelectTech }) => {
+  const sortedTechnologies = [...technologies].sort((a, b) => {
+    // first the checked
+    if (
+      checkedTechnologies.has(a.Technology) &&
+      !checkedTechnologies.has(b.Technology)
+    ) {
+      return -1
+    }
+
+    if (
+      !checkedTechnologies.has(a.Technology) &&
+      checkedTechnologies.has(b.Technology)
+    ) {
+      return 1
+    }
+
+    return a.Technology < b.Technology ? -1 : 1
+  })
+
   return (
     <ul>
-      {technologies.map((tech) => (
-        <li key={tech.Technology}>
-          <input
-            type="checkbox"
-            onChange={() => {
-              onSelectTech?.(tech.Technology)
-            }}
-            checked={checkedTechnologies.has(tech.Technology)}
-          />
-          {tech.Technology}
-        </li>
-      ))}
+      {sortedTechnologies.map((tech) => {
+        const key = `check-${tech.Technology}`
+        return (
+          <li key={key}>
+            <input
+              id={key}
+              type="checkbox"
+              onChange={() => {
+                onSelectTech?.(tech.Technology)
+              }}
+              checked={checkedTechnologies.has(tech.Technology)}
+            />
+            <label htmlFor={key}>{tech.Technology}</label>
+          </li>
+        )
+      })}
     </ul>
   )
 }
