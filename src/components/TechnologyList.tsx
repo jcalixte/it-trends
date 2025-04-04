@@ -7,7 +7,7 @@ export const TechnologyList: FunctionComponent<{
   return (
     <ul>
       {technologies.map((tech) => (
-        <li>{tech.Technology}</li>
+        <li key={tech.Technology}>{tech.Technology}</li>
       ))}
     </ul>
   )
