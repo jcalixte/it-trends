@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react"
 import { Technology } from "../domain/technology"
-import { stringToColor } from "../utils/stringToColor"
 
 export const TechnologyList: FunctionComponent<{
   technologies: Array<Technology>
