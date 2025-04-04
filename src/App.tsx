@@ -4,6 +4,28 @@ import { UploadTrends } from "./components/UploadTrends"
 import { Technology } from "./domain/technology"
 import { TechnologyList } from "./components/TechnologyList"
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js"
+import { TechGraph } from "./components/TechGraph"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
 const STORAGE_KEY = "theodo-it-trends"
 
 const toHashMap = (techs: Array<Technology>) =>
@@ -89,7 +111,12 @@ function App() {
               onSelectTech={handleCheckTech}
             />
           </section>
-          <section className="graph">Here is the graph</section>
+          <section className="graph">
+            <TechGraph
+              techs={technologies}
+              checkedTechnologies={checkedTechnologies}
+            />
+          </section>
         </main>
       )}
     </>
