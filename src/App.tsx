@@ -6,13 +6,16 @@ import { TechnologyList } from "./components/TechnologyList"
 
 const STORAGE_KEY = "theodo-it-trends"
 
+const toHashMap = (techs: Array<Technology>) =>
+  new Map(techs.map((t) => [t.Technology, true]))
+
 function App() {
   const [technologies, setTechnologies] = useState<Array<Technology>>(
     JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") || []
   )
   const [checkedTechnologies, setCheckedTechnologies] = useState<
     Map<string, boolean>
-  >(new Map())
+  >(toHashMap(technologies))
 
   const handleSetTechnologies = (techs: Array<Technology>) => {
     if (techs.length > 0) {
@@ -40,6 +43,14 @@ function App() {
     localStorage.removeItem(STORAGE_KEY)
   }
 
+  const toggleAll = () => {
+    if (checkedTechnologies.size === technologies.length) {
+      setCheckedTechnologies(new Map())
+    } else {
+      setCheckedTechnologies(toHashMap(technologies))
+    }
+  }
+
   return (
     <>
       <h1>Technology Evolution Trends</h1>
@@ -48,14 +59,13 @@ function App() {
         <UploadTrends
           onFileParsed={(techs) => {
             handleSetTechnologies(techs)
-            setCheckedTechnologies(
-              new Map(techs.map((t) => [t.Technology, true]))
-            )
+            setCheckedTechnologies(toHashMap(techs))
           }}
         />
       ) : (
         <main>
           <section className="technology-list">
+            <button onClick={() => toggleAll()}>Select/Deselect All</button>
             <TechnologyList
               technologies={technologies}
               checkedTechnologies={checkedTechnologies}
