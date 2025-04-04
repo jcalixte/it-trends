@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react"
 import { Technology } from "../domain/technology"
+import { stringToColor } from "../utils/stringToColor"
 
 export const TechnologyList: FunctionComponent<{
   technologies: Array<Technology>
@@ -39,7 +40,14 @@ export const TechnologyList: FunctionComponent<{
               }}
               checked={checkedTechnologies.has(tech.Technology)}
             />
-            <label htmlFor={key}>{tech.Technology}</label>
+            <label
+              htmlFor={key}
+              style={{
+                color: tech.color,
+              }}
+            >
+              {tech.Technology}
+            </label>
           </li>
         )
       })}
