@@ -1,14 +1,20 @@
 import { FunctionComponent } from "react"
 import { Technology } from "../domain/technology"
 import { Line } from "react-chartjs-2"
+import { ChartOptions } from "chart.js"
 
-const options = {
+const options: ChartOptions<"line"> = {
   plugins: {
     title: {
       display: false,
       text: "Chart.js Line Chart",
     },
+    legend: {
+      display: false,
+      position: "top",
+    },
   },
+  responsive: true,
 }
 
 export const TechGraph: FunctionComponent<{
